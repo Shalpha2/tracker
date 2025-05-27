@@ -9,6 +9,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String, nullable=False)
     email = Column(String, nullable=False)
+    password_hash = Column(String, nullable=False)
 
     job_applications = relationship('JobApplication', back_populates='user')
 

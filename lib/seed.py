@@ -19,8 +19,8 @@ session.query(User).delete()
 
 
 # Create users
-user1 = User(username="Ezekiel", email="ezekiel@gmail.com")
-user2 = User(username="Abigail", email="abigail@gmail.com")
+user1 = User(username="Ezekiel", email="ezekiel@gmail.com",  password_hash='defaultpasswordhash')
+user2 = User(username="Abigail", email="abigail@gmail.com",  password_hash='defaultpasswordhash')
 
 # Create statuses
 status_applied = Status(name="Applied")

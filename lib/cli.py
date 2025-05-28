@@ -111,6 +111,40 @@ def delete_application():
         print(f"❌ Error: {e}")
         session.rollback()
 
+def search_applications():
+    keyword = input("Enter job title keyword to search: ").strip()
+    results = session.query(JobApplication).filter(JobApplication.job_title.ilike(f"%{keyword}%")).all()
+    if results:
+        for app in results:
+            print(f"\nID: {app.id}")
+            print(f"Title: {app.job_title}")
+            print(f"Company: {app.company}")
+            print(f"Status: {app.status.name}")
+            print(f"Applied Date: {app.applied_date}")
+            print(f"User: {app.user.username}")
+            print(f"Note: {app.note}")
+    else:
+        print("❌ No applications found with that title.")
+
+def filter_applications():
+    status_input = input("Enter status to filter by (e.g., Applied, Interviewing, Offer): ").strip().capitalize()
+    status = session.query(Status).filter_by(name=status_input).first()
+    if not status:
+        print(f"❌ Invalid status: {status_input}")
+        return
+    results = session.query(JobApplication).filter_by(status_id=status.id).all()
+    if results:
+        for app in results:
+            print(f"\nID: {app.id}")
+            print(f"Title: {app.job_title}")
+            print(f"Company: {app.company}")
+            print(f"Status: {app.status.name}")
+            print(f"Applied Date: {app.applied_date}")
+            print(f"User: {app.user.username}")
+            print(f"Note: {app.note}")
+    else:
+        print(f"No applications found with status: {status_input}")
+
 def help_menu():
     print("\nAvailable commands:")
     print("  register      - Register a new user")
@@ -118,6 +152,8 @@ def help_menu():
     print("  list          - List all job applications")
     print("  add           - Add a new job application")
     print("  delete        - Delete a job application by ID")
+    print("  search        - Search applications by job title")
+    print("  filter        - Filter applications by status")
     print("  help          - Show this help menu")
     print("  exit          - Exit the program\n")
 
@@ -129,10 +165,12 @@ def main():
         print("3. List Applications")
         print("4. Add Application")
         print("5. Delete Application")
-        print("6. Help")
-        print("7. Exit")
+        print("6. Search by Title")
+        print("7. Filter by Status")
+        print("8. Help")
+        print("9. Exit")
 
-        choice = input("\nEnter your choice (1-7): ").strip()
+        choice = input("\nEnter your choice (1-9): ").strip()
 
         if choice == "1":
             register_user()
@@ -145,11 +183,17 @@ def main():
         elif choice == "5":
             delete_application()
         elif choice == "6":
-            help_menu()
+            search_applications()
         elif choice == "7":
+            filter_applications()
+        elif choice == "8":
+            help_menu()
+        elif choice == "9":
             print("👋 Goodbye!")
             break
         else:
-            print("❌ Invalid choice. Please select a number between 1 and 7.")
+            print("❌ Invalid choice. Please select a number between 1 and 9.")
+
+
 
 

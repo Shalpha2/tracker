@@ -5,11 +5,11 @@ from sqlalchemy.orm import sessionmaker
 from models import Base, User, Status, JobApplication
 
 # Create engine and session
-engine = create_engine('sqlite:///applications.db')  # Update if using a different DB
+engine = create_engine('sqlite:///applications.db')  
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# Optional: Clear all tables and recreate them
+#Clear all tables and recreate them
 Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 

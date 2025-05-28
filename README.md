@@ -27,6 +27,8 @@ A simple command-line tool for tracking job applications, their statuses, and pe
 - 📋 List all applications per user
 - ❌ Delete applications by ID
 - 🌱 Seed sample data for testing
+- Search applications by job title
+- Filter applications by status (e.g., applied, rejected, interviewing)
 
 ---
 
@@ -59,7 +61,7 @@ Copy code
 
 ```bash
 # 1. Clone the repository
-git clone https://https://github.com/Shalpha2/Job-tracker
+git clone https://https://https://github.com/Shalpha2/tracker
 cd job-application-tracker-cli
 
 # 2. Create a virtual environment

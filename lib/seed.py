@@ -46,13 +46,12 @@ job2 = JobApplication(
     user=user2
 )
 
-# Add everything to the session
+
 session.add_all([
     user1, user2,
     status_applied, status_interview, status_offer,
     job1, job2
 ])
-
 session.commit()
 
 print("🌱 Seed data added successfully!")

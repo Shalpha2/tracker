@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from lib.models import User, Status, JobApplication
@@ -23,46 +24,69 @@ def login_user():
     username = input("Username: ")
     password = input("Password: ")
     user = session.query(User).filter_by(username=username, password_hash=password).first()
+    if user:
+        print("✅ Login successful.")
+    else:
+        print("❌ Invalid username or password.")
     return user
 
 def list_applications():
-    applications = session.query(JobApplication).all()
-    if applications:
-        for app in applications:
-            print(f"\nID: {app.id}")
-            print(f"Title: {app.job_title}")
-            print(f"Company: {app.company}")
-            print(f"Status: {app.status.name}")
-            print(f"Applied Date: {app.applied_date}")
-            print(f"User: {app.user.username}")
-            print(f"Note: {app.note}")
-    else:
-        print("No applications found.")
+    try:
+        applications = session.query(JobApplication).all()
+        if applications:
+            for app in applications:
+                print(f"\nID: {app.id}")
+                print(f"Title: {app.job_title}")
+                print(f"Company: {app.company}")
+                print(f"Status: {app.status.name}")
+                print(f"Applied Date: {app.applied_date}")
+                print(f"User: {app.user.username}")
+                print(f"Note: {app.note}")
+        else:
+            print("No applications found.")
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        session.rollback()
 
 def add_application():
-    username = input("Username: ")
-    user = session.query(User).filter_by(username=username).first()
-    if not user:
-        print(f"No user found with username: {username}")
-        return
-
-    job_title = input("Job Title: ")
-    company = input("Company: ")
-    status_name = input("Status (Applied/Interview/Offer): ")
-    status = session.query(Status).filter_by(name=status_name).first()
-    if not status:
-        print(f"Invalid status: {status_name}")
-        return
-
-    date_str = input("Applied Date (YYYY-MM-DD): ")
-    note = input("Note: ")
-
     try:
+        username = input("Username: ")
+        user = session.query(User).filter_by(username=username).first()
+        if not user:
+            print(f"No user found with username: {username}")
+            return
+
+        job_title = input("Job Title: ")
+        company = input("Company: ")
+
+        # Fetch and display all valid statuses
+        all_statuses = session.query(Status).all()
+        valid_status_names = [s.name for s in all_statuses]
+        print(f"Valid statuses: {', '.join(valid_status_names)}")
+
+        # Normalize input
+        status_input = input("Status: ").strip().capitalize()
+
+        # Validate
+        status = session.query(Status).filter_by(name=status_input).first()
+        if not status:
+            print(f"❌ Invalid status: {status_input}")
+            return
+
+        date_str = input("Applied Date (YYYY-MM-DD): ")
+        try:
+            applied_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        except ValueError:
+            print("❌ Invalid date format. Please use YYYY-MM-DD.")
+            return
+
+        note = input("Note: ")
+
         new_app = JobApplication(
             job_title=job_title,
             company=company,
             status=status,
-            applied_date=date_str,
+            applied_date=applied_date,
             note=note,
             user=user
         )
@@ -70,17 +94,22 @@ def add_application():
         session.commit()
         print("✅ Job application added successfully!")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"❌ Error: {e}")
+        session.rollback()
 
 def delete_application():
-    app_id = input("Enter the ID of the application to delete: ")
-    app = session.query(JobApplication).filter_by(id=app_id).first()
-    if app:
-        session.delete(app)
-        session.commit()
-        print("🗑️ Application deleted.")
-    else:
-        print("❌ Application not found.")
+    try:
+        app_id = input("Enter the ID of the application to delete: ")
+        app = session.query(JobApplication).filter_by(id=app_id).first()
+        if app:
+            session.delete(app)
+            session.commit()
+            print("🗑️ Application deleted.")
+        else:
+            print("❌ Application not found.")
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        session.rollback()
 
 def help_menu():
     print("\nAvailable commands:")
@@ -122,4 +151,5 @@ def main():
             break
         else:
             print("❌ Invalid choice. Please select a number between 1 and 7.")
+
 

@@ -46,7 +46,7 @@ def list_applications():
             print("No applications found.")
     except Exception as e:
         print(f"❌ Error: {e}")
-        session.rollback()
+        session.rollback() #uncommitted changes are undone
 
 def add_application():
     try:
@@ -81,7 +81,7 @@ def add_application():
             return
 
         note = input("Note: ")
-
+        #instance of a class
         new_app = JobApplication(
             job_title=job_title,
             company=company,

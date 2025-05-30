@@ -1,10 +1,10 @@
-from sqlalchemy import ForeignKey, Column, Integer, String, create_engine, Text, Date
+from sqlalchemy import ForeignKey, Column, Integer, String, Text, Date
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'users'  
 
     id = Column(Integer, primary_key=True)
     username = Column(String, nullable=False)
@@ -14,11 +14,11 @@ class User(Base):
     job_applications = relationship('JobApplication', back_populates='user')
 
     def __repr__(self):
-        return f'<User(username={self.username}, email={self.email})>'
+        return f'<User(username={self.username}, email={self.email})>'  
 
 
 class Status(Base):
-    __tablename__ = 'status'
+    __tablename__ = 'status'  
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
@@ -30,7 +30,7 @@ class Status(Base):
 
 
 class JobApplication(Base):
-    __tablename__ = 'job_application'
+    __tablename__ = 'job_application'  
 
     id = Column(Integer, primary_key=True)
     job_title = Column(String, nullable=False)
@@ -44,7 +44,11 @@ class JobApplication(Base):
     status = relationship('Status', back_populates='job_applications')
 
     def __repr__(self):
-        return f'<JobApplication(job_title={self.job_title}, company={self.company})>'
+        return f'<JobApplication(job_title={self.job_title}, company={self.company})>'  
+
+
+
+
 
 
 

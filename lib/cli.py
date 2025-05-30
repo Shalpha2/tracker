@@ -104,7 +104,7 @@ def delete_application():
         if app:
             session.delete(app)
             session.commit()
-            print("🗑️ Application deleted.")
+            print("🗑 Application deleted.")
         else:
             print("❌ Application not found.")
     except Exception as e:
@@ -193,7 +193,6 @@ def main():
             break
         else:
             print("❌ Invalid choice. Please select a number between 1 and 9.")
-
 
 
 

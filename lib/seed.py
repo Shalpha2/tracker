@@ -9,9 +9,7 @@ engine = create_engine('sqlite:///applications.db')
 Session = sessionmaker(bind=engine)
 session = Session()
 
-#Clear all tables and recreate them
-Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine)
+
 
 session.query(JobApplication).delete()
 session.query(Status).delete()

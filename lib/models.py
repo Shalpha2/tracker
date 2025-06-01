@@ -1,21 +1,35 @@
 from sqlalchemy import ForeignKey, Column, Integer, String, Text, Date
 from sqlalchemy.orm import declarative_base, relationship
-
+import re    #regex for validation
+from sqlalchemy.orm import validates
 Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'users'  
 
     id = Column(Integer, primary_key=True)
-    username = Column(String, nullable=False)
-    email = Column(String, nullable=False)
+    username = Column(String,unique=True , nullable=False)
+    email = Column(String, unique=True, nullable=False)
     password_hash = Column(String, nullable=False)
 
     job_applications = relationship('JobApplication', back_populates='user')
 
     def __repr__(self):
         return f'<User(username={self.username}, email={self.email})>'  
+    
+    @validates('email')
+    def validate_email(self, key, email):
+        if not re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', email):
+            raise ValueError("❌ Invalid email format")
+        
+        return email
 
+    @validates('password_hash')
+    def validate_password(self, key, password):
+        if len(password) < 8:
+            raise ValueError("❌ Password must be at least 8 characters long")
+       
+        return password
 
 class Status(Base):
     __tablename__ = 'status'  

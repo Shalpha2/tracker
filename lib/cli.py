@@ -127,7 +127,7 @@ def search_applications():
         print("❌ No applications found with that title.")
 
 def filter_applications():
-    status_input = input("Enter status to filter by (e.g., Applied, Interviewing, Offer): ").strip().capitalize()
+    status_input = input("Enter status to filter by (e.g., Applied, Interview, Offer): ").strip().capitalize()
     status = session.query(Status).filter_by(name=status_input).first()
     if not status:
         print(f"❌ Invalid status: {status_input}")

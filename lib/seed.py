@@ -2,7 +2,7 @@ from datetime import date
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import Base, User, Status, JobApplication
+from models import  User, Status, JobApplication
 
 # Create engine and session
 engine = create_engine('sqlite:///applications.db')  

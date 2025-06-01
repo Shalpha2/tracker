@@ -20,14 +20,14 @@ class User(Base):
     @validates('email')
     def validate_email(self, key, email):
         if not re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', email):
-            raise ValueError("❌ Invalid email format")
+            raise ValueError(" Invalid email format")
         
         return email
 
     @validates('password_hash')
     def validate_password(self, key, password):
         if len(password) < 8:
-            raise ValueError("❌ Password must be at least 8 characters long")
+            raise ValueError(" Password must be at least 8 characters long")
        
         return password
 

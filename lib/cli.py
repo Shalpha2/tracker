@@ -64,10 +64,10 @@ def add_application():
         valid_status_names = [s.name for s in all_statuses]
         print(f"Valid statuses: {', '.join(valid_status_names)}")
 
-        # Normalize input
+        
         status_input = input("Status: ").strip().capitalize()
 
-        # Validate
+        
         status = session.query(Status).filter_by(name=status_input).first()
         if not status:
             print(f"❌ Invalid status: {status_input}")
@@ -81,6 +81,7 @@ def add_application():
             return
 
         note = input("Note: ")
+
         #instance of a class
         new_app = JobApplication(
             job_title=job_title,

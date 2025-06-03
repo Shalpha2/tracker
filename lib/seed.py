@@ -52,5 +52,5 @@ session.add_all([
 ])
 session.commit()
 
-print("🌱 Seed data added successfully!")
+print(" Seed data added successfully!")
 

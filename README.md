@@ -28,7 +28,7 @@ A simple command-line tool for tracking job applications, their statuses, and pe
 - ❌ Delete applications by ID
 - 🌱 Seed sample data for testing
 - Search applications by job title
-- Filter applications by status (e.g., applied, rejected, interviewing)
+- Filter applications by status (e.g., applied, offer, interviewing)
 
 ---
 
@@ -147,13 +147,11 @@ Open a pull request
 Feel free to open an issue if you find bugs or have feature requests!
 
 🐛 Known Issues
-Passwords are stored in plain text (⚠️ security risk)
+Passwords are stored in plain text 
 
-No email validation during registration
 
 Cannot edit or update existing applications
 
-No input validation for dates or status values
 
 📄 License
 This project is licensed under the MIT License.

@@ -10,14 +10,14 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 def register_user():
-    print("\n📝 Register")
+    print("\n Register")
     username = input("Username: ")
     email = input("Email: ")
     password = input("Password: ")
     user = User(username=username, email=email, password_hash=password)
     session.add(user)
     session.commit()
-    print("✅ User registered.")
+    print("User registered.")
 
 def login_user():
     print("\n🔐 Login")
@@ -25,9 +25,9 @@ def login_user():
     password = input("Password: ")
     user = session.query(User).filter_by(username=username, password_hash=password).first()
     if user:
-        print("✅ Login successful.")
+        print(" Login successful.")
     else:
-        print("❌ Invalid username or password.")
+        print(" Invalid username or password.")
     return user
 
 def list_applications():
@@ -45,7 +45,7 @@ def list_applications():
         else:
             print("No applications found.")
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f" Error: {e}")
         session.rollback() #uncommitted changes are undone
 
 def add_application():
@@ -70,14 +70,14 @@ def add_application():
         
         status = session.query(Status).filter_by(name=status_input).first()
         if not status:
-            print(f"❌ Invalid status: {status_input}")
+            print(f" Invalid status: {status_input}")
             return
 
         date_str = input("Applied Date (YYYY-MM-DD): ")
         try:
             applied_date = datetime.strptime(date_str, "%Y-%m-%d").date()
         except ValueError:
-            print("❌ Invalid date format. Please use YYYY-MM-DD.")
+            print(" Invalid date format. Please use YYYY-MM-DD.")
             return
 
         note = input("Note: ")
@@ -93,9 +93,9 @@ def add_application():
         )
         session.add(new_app)
         session.commit()
-        print("✅ Job application added successfully!")
+        print(" Job application added successfully!")
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f" Error: {e}")
         session.rollback()
 
 def delete_application():
@@ -107,9 +107,9 @@ def delete_application():
             session.commit()
             print("🗑 Application deleted.")
         else:
-            print("❌ Application not found.")
+            print(" Application not found.")
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f" Error: {e}")
         session.rollback()
 
 def search_applications():
@@ -125,13 +125,13 @@ def search_applications():
             print(f"User: {app.user.username}")
             print(f"Note: {app.note}")
     else:
-        print("❌ No applications found with that title.")
+        print(" No applications found with that title.")
 
 def filter_applications():
     status_input = input("Enter status to filter by (e.g., Applied, Interview, Offer): ").strip().capitalize()
     status = session.query(Status).filter_by(name=status_input).first()
     if not status:
-        print(f"❌ Invalid status: {status_input}")
+        print(f" Invalid status: {status_input}")
         return
     results = session.query(JobApplication).filter_by(status_id=status.id).all()
     if results:
@@ -160,7 +160,7 @@ def help_menu():
 
 def main():
     while True:
-        print("\n📋 Choose an option:")
+        print("\n Choose an option:")
         print("1. Register")
         print("2. Login")
         print("3. List Applications")
@@ -193,7 +193,7 @@ def main():
             print("👋 Goodbye!")
             break
         else:
-            print("❌ Invalid choice. Please select a number between 1 and 9.")
+            print(" Invalid choice. Please select a number between 1 and 9.")
 
 
 
